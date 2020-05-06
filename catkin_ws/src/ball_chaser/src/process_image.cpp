@@ -37,8 +37,9 @@ void process_image_callback(const sensor_msgs::Image img)
   // Then, identify if this pixel falls in the left, mid or right side of the image
   // Depending on the white ball position, call the drive_bot function and pass velocities to it
   // Request a stop when there's no white ball seen by the camera
-  for (int i = 0; i < img.height * img.step; i++){
-    if (img.data[i] == white_pixel){
+  for (int i = 0; i < img.height * img.step; i += 3){
+    // ROS_INFO("Checking i: %d", i);
+    if (img.data[i] == white_pixel && img.data[i + 1] == white_pixel && img.data[i + 2] == white_pixel){  // Each R-G-B value takes up one byte
       stepMod = i % img.step;
       ROS_INFO("stepMod is: %d", stepMod);
       
